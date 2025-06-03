@@ -159,7 +159,10 @@ splitter = CharacterTextSplitter(chunk_size=600, chunk_overlap=100)
 docs = splitter.split_documents(documents)
 
 # ✅ 벡터 저장소 및 임베딩
-embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+embeddings = OpenAIEmbeddings(
+    openai_api_key=openai_api_key,
+    model="text-embedding-3-small"  # 또는 "text-embedding-ada-002"
+)
 vectorstore = DocArrayInMemorySearch.from_documents(docs, embeddings)
 retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
 
