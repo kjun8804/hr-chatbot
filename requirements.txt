@@ -1,17 +1,15 @@
 streamlit==1.35.0
 openai==1.30.1
 
-# 호환 가능한 최신 조합 (2025년 6월 기준)
+# langchain 및 호환 스택
 langchain==0.1.17
-langchain-core==0.2.4
+langchain-core==0.1.52
 langchain-community==0.0.37
-langchain-openai==0.1.9
+langchain-openai==0.1.7
 
 tenacity==8.2.3
-
 notion-client==2.2.1
 google-api-python-client==2.122.0
 google-auth==2.29.0
 docarray==0.40.0
-
 numpy==1.26.4
