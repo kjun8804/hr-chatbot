@@ -1,10 +1,22 @@
 streamlit==1.35.0
 openai==1.30.1
-langchain==0.3.5
+
+# 최신 LangChain 계열 (0.1.x 계열로 정리)
+langchain==0.1.16
+langchain-core==0.1.52
 langchain-community==0.0.36
 langchain-openai==0.1.8
+
+# 텐서 안정성
 tenacity==8.2.3
+
+# 외부 API 연동
 notion-client==2.2.1
 google-api-python-client==2.122.0
 google-auth==2.29.0
+
+# 벡터 저장소 및 문서 검색
 docarray==0.40.0
+
+# 기타 의존성
+numpy==1.26.4
