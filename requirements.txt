@@ -38,7 +38,7 @@ jsonschema==4.23.0
 jsonschema-specifications==2025.4.1
 langchain==0.1.17
 langchain-openai==0.0.8
-langchain-core==0.1.33
+langchain-core==0.1.48
 langchain-community==0.0.36
 langchain-text-splitters==0.0.1
 langsmith==0.3.42
@@ -48,7 +48,7 @@ multidict==6.4.3
 mypy_extensions==1.1.0
 narwhals==1.38.0
 notion-client==2.3.0
-numpy==2.2.5
+numpy==1.26.4
 oauthlib==3.2.2
 openai==1.77.0
 orjson==3.10.18
