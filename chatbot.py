@@ -3,7 +3,6 @@ import os
 import json
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.embeddings import OpenAIEmbeddings
-from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.schema import Document
 from langchain.retrievers.document_compressors import EmbeddingsFilter
@@ -14,6 +13,7 @@ from notion_client import Client
 from notion_client.helpers import collect_paginated_api
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from langchain.vectorstores import DocArrayInMemorySearch
 
 # ✅ API 키
 openai_api_key = st.secrets["OPENAI_API_KEY"]
@@ -157,11 +157,11 @@ docs = splitter.split_documents(documents)
 
 # ✅ 벡터 저장소 및 임베딩
 embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
-vectorstore = FAISS.from_documents(docs, embeddings)
+vectorstore = DocArrayInMemorySearch.from_documents(docs, embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
 
-# ✅ retriever + 압축기
-retriever = vectorstore.as_retriever(search_kwargs={"k": 4}) 
-filter = EmbeddingsFilter(embeddings=embeddings, similarity_threshold=0.55)
+# ✅ filter 정의도 필요:
+filter = EmbeddingsFilter(embeddings=embeddings, similarity_threshold=0.76)
 compressed_retriever = ContextualCompressionRetriever(
     base_compressor=filter,
     base_retriever=retriever,
@@ -338,6 +338,7 @@ if "faq_trigger" in st.session_state and st.session_state.faq_trigger:
     st.session_state.faq_trigger = None
 
 if q:
+    answer = ""
     selected_category = classify_question(q)
     sheet_documents = get_sheet_data_by_category(selected_category)
 
@@ -363,8 +364,12 @@ if q:
             if not sheet_documents:
                 answer = "❌ 관련 정보를 찾을 수 없습니다. HR팀에 문의해주세요."
             else:
-                vectorstore = FAISS.from_documents(sheet_documents, embeddings)
+                vectorstore = DocArrayInMemorySearch.from_documents(docs, embeddings)
                 retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
+
+                # ✅ filter 정의도 필요:
+                filter = EmbeddingsFilter(embeddings=embeddings, similarity_threshold=0.76)
+
                 compressed_retriever = ContextualCompressionRetriever(
                     base_compressor=filter,
                     base_retriever=retriever,
