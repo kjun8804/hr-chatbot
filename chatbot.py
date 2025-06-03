@@ -21,6 +21,9 @@ notion = Client(auth=st.secrets["NOTION_TOKEN"])
 notion_page_id = st.secrets["NOTION_PAGE_ID"]
 SPREADSHEET_ID = st.secrets["GOOGLE_SHEET_ID"]
 
+# ✅ 추가: 환경변수 설정
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+
 # ✅ 질문 카테고리 키워드
 category_keywords = {
     "근무일반": [
